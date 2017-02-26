@@ -10,8 +10,8 @@ import java.util.List;
 import java.util.Set;
 
 import net.ess3.api.MaxMoneyException;
-import net.minecraft.server.v1_8_R3.ChunkCoordIntPair;
-import net.minecraft.server.v1_8_R3.EntityPlayer;
+import net.minecraft.server.v1_10_R1.ChunkCoordIntPair;
+import net.minecraft.server.v1_10_R1.EntityPlayer;
 
 import org.anjocaido.groupmanager.GroupManager;
 import org.anjocaido.groupmanager.data.Group;
@@ -19,7 +19,7 @@ import org.anjocaido.groupmanager.dataholder.worlds.WorldsHolder;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.block.Sign;
-import org.bukkit.craftbukkit.v1_8_R3.entity.CraftPlayer;
+import org.bukkit.craftbukkit.v1_10_R1.entity.CraftPlayer;
 import org.bukkit.entity.Egg;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;

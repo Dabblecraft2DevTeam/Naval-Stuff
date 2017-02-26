@@ -4,15 +4,15 @@ import java.util.ArrayList;
 import java.util.List;
  
 
-import net.minecraft.server.v1_8_R3.EntityHuman;
-import net.minecraft.server.v1_8_R3.EntityPlayer;
-import net.minecraft.server.v1_8_R3.EntityTracker;
-import net.minecraft.server.v1_8_R3.EntityTrackerEntry;
-import net.minecraft.server.v1_8_R3.WorldServer;
+import net.minecraft.server.v1_10_R1.EntityHuman;
+import net.minecraft.server.v1_10_R1.EntityPlayer;
+import net.minecraft.server.v1_10_R1.EntityTracker;
+import net.minecraft.server.v1_10_R1.EntityTrackerEntry;
+import net.minecraft.server.v1_10_R1.WorldServer;
  
 
-import org.bukkit.craftbukkit.v1_8_R3.CraftWorld;
-import org.bukkit.craftbukkit.v1_8_R3.entity.CraftPlayer;
+import org.bukkit.craftbukkit.v1_10_R1.CraftWorld;
+import org.bukkit.craftbukkit.v1_10_R1.entity.CraftPlayer;
  
 import org.bukkit.Server;
 import org.bukkit.World;

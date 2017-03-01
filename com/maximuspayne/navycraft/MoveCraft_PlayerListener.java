@@ -20,7 +20,7 @@ import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.block.Sign;
 import org.bukkit.craftbukkit.v1_10_R1.entity.CraftPlayer;
-import org.bukkit.entity.Egg;
+import org.bukkit.entity.Snowball;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.TNTPrimed;
 import org.bukkit.event.EventHandler;
@@ -32,7 +32,7 @@ import org.bukkit.event.player.PlayerAnimationEvent;
 import org.bukkit.event.player.PlayerAnimationType;
 import org.bukkit.event.player.PlayerChangedWorldEvent;
 import org.bukkit.event.player.PlayerCommandPreprocessEvent;
-import org.bukkit.event.player.PlayerEggThrowEvent;
+import org.bukkit.event.player.PlayerSnowballThrowEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
@@ -542,14 +542,14 @@ public class MoveCraft_PlayerListener implements Listener {
 		if ((action == Action.LEFT_CLICK_AIR) && (player.getItemInHand().getType() == Material.GOLD_SWORD)) {
 			Craft testCraft = Craft.getPlayerCraft(event.getPlayer());
 			if ((testCraft != null) && (testCraft.driverName == player.getName()) && testCraft.type.canFly && !testCraft.sinking && !testCraft.helmDestroyed) {
-				Egg newEgg = player.launchProjectile(Egg.class);
+				Snowball newSnowball = player.launchProjectile(Snowball.class);
 
-				// player.sendMessage(newEgg.getLocation().toString());
-				// newEgg.teleport(newEgg.getLocation().add(newEgg.getVelocity().multiply(5)));
-				// player.sendMessage(newEgg.getLocation().toString());
+				// player.sendMessage(newSnowball.getLocation().toString());
+				// newSnowball.teleport(newSnowball.getLocation().add(newSnowball.getVelocity().multiply(5)));
+				// player.sendMessage(newSnowball.getLocation().toString());
 
-				newEgg.setVelocity(newEgg.getVelocity().multiply(2.0f));
-				NavyCraft.explosiveEggsList.add(newEgg);
+				newSnowball.setVelocity(newSnowball.getVelocity().multiply(2.0f));
+				NavyCraft.explosiveSnowballsList.add(newSnowball);
 				event.getPlayer().getWorld().playEffect(player.getLocation(), Effect.SMOKE, 0);
 				event.getPlayer().getWorld().playSound(player.getLocation(), Sound.ENTITY_ZOMBIE_BREAK_DOOR_WOOD, 5.0f, 1.70f);
 				// event.getPlayer().getWorld().playEffect(player.getLocation(), Effect.CLICK2, 0);
@@ -559,9 +559,9 @@ public class MoveCraft_PlayerListener implements Listener {
 
 		// AA Gunner...
 		if ((action == Action.LEFT_CLICK_AIR) && NavyCraft.aaGunnersList.contains(player) && (player.getItemInHand().getType() == Material.BLAZE_ROD)) {
-			Egg newEgg = player.launchProjectile(Egg.class);
-			newEgg.setVelocity(newEgg.getVelocity().multiply(1.5f));
-			NavyCraft.explosiveEggsList.add(newEgg);
+			Snowball newSnowball = player.launchProjectile(Snowball.class);
+			newSnowball.setVelocity(newSnowball.getVelocity().multiply(1.5f));
+			NavyCraft.explosiveSnowballsList.add(newSnowball);
 			event.getPlayer().getWorld().playEffect(player.getLocation(), Effect.SMOKE, 0);
 			// event.getPlayer().getWorld().playEffect(player.getLocation(), Effect.CLICK2, 0);
 			event.getPlayer().getWorld().playSound(player.getLocation(), Sound.ENTITY_ZOMBIE_BREAK_DOOR_WOOD, 5.0f, 1.70f);
@@ -4157,46 +4157,46 @@ public class MoveCraft_PlayerListener implements Listener {
 	}
 
 	@EventHandler(priority = EventPriority.HIGH)
-	public void onPlayerEggThrow(PlayerEggThrowEvent event) {
-		// event.getEgg().remove();
-		Egg egg = event.getEgg();
+	public void onPlayerSnowballThrow(PlayerSnowballThrowEvent event) {
+		// event.getSnowball().remove();
+		Snowball Snowball = event.getSnowball();
 
-		if (NavyCraft.explosiveEggsList.contains(egg)) {
-			if (checkProtectedRegion(event.getPlayer(), egg.getLocation())) {
+		if (NavyCraft.explosiveSnowballsList.contains(Snowball)) {
+			if (checkProtectedRegion(event.getPlayer(), Snowball.getLocation())) {
 				event.getPlayer().sendMessage(ChatColor.RED + "No AA Allowed In Dock Area");
 				return;
 			}
 
 			event.setHatching(false);
 
-			Block eggBlock = egg.getLocation().getBlock();
+			Block SnowballBlock = Snowball.getLocation().getBlock();
 			int fuseDelay = 5;
-			if (eggBlock.getY() >= 63) {
+			if (SnowballBlock.getY() >= 63) {
 				Craft checkCraft = Craft.getPlayerCraft(event.getPlayer());
 				if (checkCraft != null) {
-					if (checkCraft.isIn(eggBlock.getX(), eggBlock.getY(), eggBlock.getZ())) { return; }
+					if (checkCraft.isIn(SnowballBlock.getX(), SnowballBlock.getY(), SnowballBlock.getZ())) { return; }
 				}
 
-				int blockType = eggBlock.getTypeId();
+				int blockType = SnowballBlock.getTypeId();
 				double randomNum = Math.random();
 				if ((blockType != 0) && (blockType != 8) && (blockType != 9)) {
 
 					if (Craft.blockHardness(blockType) == 1) {
 						if (randomNum >= .3) {
-							eggBlock.setTypeId(0);
+							SnowballBlock.setTypeId(0);
 						}
 					} else if (Craft.blockHardness(blockType) == 0) {
-						eggBlock.setTypeId(0);
+						SnowballBlock.setTypeId(0);
 					} else if ((Craft.blockHardness(blockType) == 46) && (randomNum >= 0.5)) {
-						// CraftWorld cWorld = (CraftWorld) eggBlock.getWorld();
-						// cWorld.createExplosion(eggBlock.getLocation(), 6);
+						// CraftWorld cWorld = (CraftWorld) SnowballBlock.getWorld();
+						// cWorld.createExplosion(SnowballBlock.getLocation(), 6);
 
-						// CraftWorld cWorld = (CraftWorld) eggBlock.getWorld();
-						// EntityTNTPrimed tnt = new EntityTNTPrimed(cWorld.getHandle(), eggBlock.getLocation().getX(),
-						// eggBlock.getLocation().getY(), eggBlock.getLocation().getZ());
+						// CraftWorld cWorld = (CraftWorld) SnowballBlock.getWorld();
+						// EntityTNTPrimed tnt = new EntityTNTPrimed(cWorld.getHandle(), SnowballBlock.getLocation().getX(),
+						// SnowballBlock.getLocation().getY(), SnowballBlock.getLocation().getZ());
 						// cWorld.getHandle().addEntity(tnt);
 						// tnt.fuseTicks = fuseDelay;
-						TNTPrimed tnt = (TNTPrimed) eggBlock.getWorld().spawnEntity(new Location(eggBlock.getWorld(), eggBlock.getX(), eggBlock.getY(), eggBlock.getZ()), org.bukkit.entity.EntityType.PRIMED_TNT);
+						TNTPrimed tnt = (TNTPrimed) SnowballBlock.getWorld().spawnEntity(new Location(SnowballBlock.getWorld(), SnowballBlock.getX(), SnowballBlock.getY(), SnowballBlock.getZ()), org.bukkit.entity.EntityType.PRIMED_TNT);
 						tnt.setFuseTicks(fuseDelay);
 						fuseDelay = fuseDelay + 100;
 					}
@@ -4206,49 +4206,49 @@ public class MoveCraft_PlayerListener implements Listener {
 				randomNum = Math.random();
 
 				if (randomNum >= .2) {
-					blockType = eggBlock.getRelative(BlockFace.NORTH).getTypeId();
+					blockType = SnowballBlock.getRelative(BlockFace.NORTH).getTypeId();
 					if ((blockType != 0) && (blockType != 8) && (blockType != 9)) {
 
 						if (Craft.blockHardness(blockType) == 1) {
 							if (randomNum >= .3) {
-								eggBlock.getRelative(BlockFace.NORTH).setTypeId(0);
+								SnowballBlock.getRelative(BlockFace.NORTH).setTypeId(0);
 							}
 						} else if (Craft.blockHardness(blockType) == 0) {
-							eggBlock.getRelative(BlockFace.NORTH).setTypeId(0);
+							SnowballBlock.getRelative(BlockFace.NORTH).setTypeId(0);
 						} else if ((Craft.blockHardness(blockType) == 46) && (randomNum >= 0.5)) {
-							// CraftWorld cWorld = (CraftWorld) eggBlock.getWorld();
-							// cWorld.createExplosion(eggBlock.getRelative(BlockFace.NORTH).getLocation(), 6);
-							// CraftWorld cWorld = (CraftWorld) eggBlock.getWorld();
+							// CraftWorld cWorld = (CraftWorld) SnowballBlock.getWorld();
+							// cWorld.createExplosion(SnowballBlock.getRelative(BlockFace.NORTH).getLocation(), 6);
+							// CraftWorld cWorld = (CraftWorld) SnowballBlock.getWorld();
 							// EntityTNTPrimed tnt = new EntityTNTPrimed(cWorld.getHandle(),
-							// eggBlock.getLocation().getX(), eggBlock.getLocation().getY(),
-							// eggBlock.getLocation().getZ());
+							// SnowballBlock.getLocation().getX(), SnowballBlock.getLocation().getY(),
+							// SnowballBlock.getLocation().getZ());
 							// cWorld.getHandle().addEntity(tnt);
 							// tnt.fuseTicks = fuseDelay;
-							TNTPrimed tnt = (TNTPrimed) eggBlock.getWorld().spawnEntity(new Location(eggBlock.getWorld(), eggBlock.getX(), eggBlock.getY(), eggBlock.getZ()), org.bukkit.entity.EntityType.PRIMED_TNT);
+							TNTPrimed tnt = (TNTPrimed) SnowballBlock.getWorld().spawnEntity(new Location(SnowballBlock.getWorld(), SnowballBlock.getX(), SnowballBlock.getY(), SnowballBlock.getZ()), org.bukkit.entity.EntityType.PRIMED_TNT);
 							tnt.setFuseTicks(fuseDelay);
 							fuseDelay = fuseDelay + 2;
 						}
 					}
 
-					blockType = eggBlock.getRelative(BlockFace.SOUTH).getTypeId();
+					blockType = SnowballBlock.getRelative(BlockFace.SOUTH).getTypeId();
 					if ((blockType != 0) && (blockType != 8) && (blockType != 9)) {
 
 						if (Craft.blockHardness(blockType) == 1) {
 							if (randomNum >= .3) {
-								eggBlock.getRelative(BlockFace.SOUTH).setTypeId(0);
+								SnowballBlock.getRelative(BlockFace.SOUTH).setTypeId(0);
 							}
 						} else if (Craft.blockHardness(blockType) == 0) {
-							eggBlock.getRelative(BlockFace.SOUTH).setTypeId(0);
+							SnowballBlock.getRelative(BlockFace.SOUTH).setTypeId(0);
 						} else if ((Craft.blockHardness(blockType) == 46) && (randomNum >= 0.5)) {
-							// CraftWorld cWorld = (CraftWorld) eggBlock.getWorld();
-							// cWorld.createExplosion(eggBlock.getRelative(BlockFace.SOUTH).getLocation(), 6);
-							// CraftWorld cWorld = (CraftWorld) eggBlock.getWorld();
+							// CraftWorld cWorld = (CraftWorld) SnowballBlock.getWorld();
+							// cWorld.createExplosion(SnowballBlock.getRelative(BlockFace.SOUTH).getLocation(), 6);
+							// CraftWorld cWorld = (CraftWorld) SnowballBlock.getWorld();
 							// EntityTNTPrimed tnt = new EntityTNTPrimed(cWorld.getHandle(),
-							// eggBlock.getLocation().getX(), eggBlock.getLocation().getY(),
-							// eggBlock.getLocation().getZ());
+							// SnowballBlock.getLocation().getX(), SnowballBlock.getLocation().getY(),
+							// SnowballBlock.getLocation().getZ());
 							// cWorld.getHandle().addEntity(tnt);
 							// tnt.fuseTicks = fuseDelay;
-							TNTPrimed tnt = (TNTPrimed) eggBlock.getWorld().spawnEntity(new Location(eggBlock.getWorld(), eggBlock.getX(), eggBlock.getY(), eggBlock.getZ()), org.bukkit.entity.EntityType.PRIMED_TNT);
+							TNTPrimed tnt = (TNTPrimed) SnowballBlock.getWorld().spawnEntity(new Location(SnowballBlock.getWorld(), SnowballBlock.getX(), SnowballBlock.getY(), SnowballBlock.getZ()), org.bukkit.entity.EntityType.PRIMED_TNT);
 							tnt.setFuseTicks(fuseDelay);
 							fuseDelay = fuseDelay + 2;
 						}
@@ -4259,50 +4259,50 @@ public class MoveCraft_PlayerListener implements Listener {
 				randomNum = Math.random();
 
 				if (randomNum >= .2) {
-					blockType = eggBlock.getRelative(BlockFace.EAST).getTypeId();
+					blockType = SnowballBlock.getRelative(BlockFace.EAST).getTypeId();
 					if ((blockType != 0) && (blockType != 8) && (blockType != 9)) {
 
 						if (Craft.blockHardness(blockType) == 1) {
 							if (randomNum >= .3) {
-								eggBlock.getRelative(BlockFace.EAST).setTypeId(0);
+								SnowballBlock.getRelative(BlockFace.EAST).setTypeId(0);
 							}
 						} else if (Craft.blockHardness(blockType) == 0) {
-							eggBlock.getRelative(BlockFace.EAST).setTypeId(0);
+							SnowballBlock.getRelative(BlockFace.EAST).setTypeId(0);
 						} else if ((Craft.blockHardness(blockType) == 46) && (randomNum >= 0.5)) {
-							// CraftWorld cWorld = (CraftWorld) eggBlock.getWorld();
-							// cWorld.createExplosion(eggBlock.getRelative(BlockFace.EAST).getLocation(), 6);
-							// CraftWorld cWorld = (CraftWorld) eggBlock.getWorld();
+							// CraftWorld cWorld = (CraftWorld) SnowballBlock.getWorld();
+							// cWorld.createExplosion(SnowballBlock.getRelative(BlockFace.EAST).getLocation(), 6);
+							// CraftWorld cWorld = (CraftWorld) SnowballBlock.getWorld();
 							// EntityTNTPrimed tnt = new EntityTNTPrimed(cWorld.getHandle(),
-							// eggBlock.getLocation().getX(), eggBlock.getLocation().getY(),
-							// eggBlock.getLocation().getZ());
+							// SnowballBlock.getLocation().getX(), SnowballBlock.getLocation().getY(),
+							// SnowballBlock.getLocation().getZ());
 							// cWorld.getHandle().addEntity(tnt);
 							// tnt.fuseTicks = fuseDelay;
-							TNTPrimed tnt = (TNTPrimed) eggBlock.getWorld().spawnEntity(new Location(eggBlock.getWorld(), eggBlock.getX(), eggBlock.getY(), eggBlock.getZ()), org.bukkit.entity.EntityType.PRIMED_TNT);
+							TNTPrimed tnt = (TNTPrimed) SnowballBlock.getWorld().spawnEntity(new Location(SnowballBlock.getWorld(), SnowballBlock.getX(), SnowballBlock.getY(), SnowballBlock.getZ()), org.bukkit.entity.EntityType.PRIMED_TNT);
 							tnt.setFuseTicks(fuseDelay);
 
 							fuseDelay = fuseDelay + 2;
 						}
 					}
 
-					blockType = eggBlock.getRelative(BlockFace.WEST).getTypeId();
+					blockType = SnowballBlock.getRelative(BlockFace.WEST).getTypeId();
 					if ((blockType != 0) && (blockType != 8) && (blockType != 9)) {
 
 						if (Craft.blockHardness(blockType) == 1) {
 							if (randomNum >= .3) {
-								eggBlock.getRelative(BlockFace.WEST).setTypeId(0);
+								SnowballBlock.getRelative(BlockFace.WEST).setTypeId(0);
 							}
 						} else if (Craft.blockHardness(blockType) == 0) {
-							eggBlock.getRelative(BlockFace.WEST).setTypeId(0);
+							SnowballBlock.getRelative(BlockFace.WEST).setTypeId(0);
 						} else if ((Craft.blockHardness(blockType) == 46) && (randomNum >= 0.5)) {
-							// CraftWorld cWorld = (CraftWorld) eggBlock.getWorld();
-							// cWorld.createExplosion(eggBlock.getRelative(BlockFace.WEST).getLocation(), 6);
-							// CraftWorld cWorld = (CraftWorld) eggBlock.getWorld();
+							// CraftWorld cWorld = (CraftWorld) SnowballBlock.getWorld();
+							// cWorld.createExplosion(SnowballBlock.getRelative(BlockFace.WEST).getLocation(), 6);
+							// CraftWorld cWorld = (CraftWorld) SnowballBlock.getWorld();
 							// EntityTNTPrimed tnt = new EntityTNTPrimed(cWorld.getHandle(),
-							// eggBlock.getLocation().getX(), eggBlock.getLocation().getY(),
-							// eggBlock.getLocation().getZ());
+							// SnowballBlock.getLocation().getX(), SnowballBlock.getLocation().getY(),
+							// SnowballBlock.getLocation().getZ());
 							// cWorld.getHandle().addEntity(tnt);
 							// tnt.fuseTicks = fuseDelay;
-							TNTPrimed tnt = (TNTPrimed) eggBlock.getWorld().spawnEntity(new Location(eggBlock.getWorld(), eggBlock.getX(), eggBlock.getY(), eggBlock.getZ()), org.bukkit.entity.EntityType.PRIMED_TNT);
+							TNTPrimed tnt = (TNTPrimed) SnowballBlock.getWorld().spawnEntity(new Location(SnowballBlock.getWorld(), SnowballBlock.getX(), SnowballBlock.getY(), SnowballBlock.getZ()), org.bukkit.entity.EntityType.PRIMED_TNT);
 							tnt.setFuseTicks(fuseDelay);
 							fuseDelay = fuseDelay + 2;
 						}
@@ -4313,70 +4313,70 @@ public class MoveCraft_PlayerListener implements Listener {
 				randomNum = Math.random();
 
 				if (randomNum >= .2) {
-					blockType = eggBlock.getRelative(BlockFace.UP).getTypeId();
+					blockType = SnowballBlock.getRelative(BlockFace.UP).getTypeId();
 					if ((blockType != 0) && (blockType != 8) && (blockType != 9)) {
 
 						if (Craft.blockHardness(blockType) == 1) {
 							if (randomNum >= .3) {
-								eggBlock.getRelative(BlockFace.UP).setTypeId(0);
+								SnowballBlock.getRelative(BlockFace.UP).setTypeId(0);
 							}
 						} else if (Craft.blockHardness(blockType) == 0) {
-							eggBlock.getRelative(BlockFace.UP).setTypeId(0);
+							SnowballBlock.getRelative(BlockFace.UP).setTypeId(0);
 						} else if ((Craft.blockHardness(blockType) == 46) && (randomNum >= .5)) {
-							// CraftWorld cWorld = (CraftWorld) eggBlock.getWorld();
-							// cWorld.createExplosion(eggBlock.getRelative(BlockFace.UP).getLocation(), 6);
-							// CraftWorld cWorld = (CraftWorld) eggBlock.getWorld();
+							// CraftWorld cWorld = (CraftWorld) SnowballBlock.getWorld();
+							// cWorld.createExplosion(SnowballBlock.getRelative(BlockFace.UP).getLocation(), 6);
+							// CraftWorld cWorld = (CraftWorld) SnowballBlock.getWorld();
 							// EntityTNTPrimed tnt = new EntityTNTPrimed(cWorld.getHandle(),
-							// eggBlock.getLocation().getX(), eggBlock.getLocation().getY(),
-							// eggBlock.getLocation().getZ());
+							// SnowballBlock.getLocation().getX(), SnowballBlock.getLocation().getY(),
+							// SnowballBlock.getLocation().getZ());
 							// cWorld.getHandle().addEntity(tnt);
 							// tnt.fuseTicks = fuseDelay;
-							TNTPrimed tnt = (TNTPrimed) eggBlock.getWorld().spawnEntity(new Location(eggBlock.getWorld(), eggBlock.getX(), eggBlock.getY(), eggBlock.getZ()), org.bukkit.entity.EntityType.PRIMED_TNT);
+							TNTPrimed tnt = (TNTPrimed) SnowballBlock.getWorld().spawnEntity(new Location(SnowballBlock.getWorld(), SnowballBlock.getX(), SnowballBlock.getY(), SnowballBlock.getZ()), org.bukkit.entity.EntityType.PRIMED_TNT);
 							tnt.setFuseTicks(fuseDelay);
 							fuseDelay = fuseDelay + 2;
 						}
 					}
 
-					blockType = eggBlock.getRelative(BlockFace.DOWN).getTypeId();
+					blockType = SnowballBlock.getRelative(BlockFace.DOWN).getTypeId();
 					if ((blockType != 0) && (blockType != 8) && (blockType != 9)) {
 
 						if (Craft.blockHardness(blockType) == 1) {
 							if (randomNum >= .3) {
-								eggBlock.getRelative(BlockFace.DOWN).setTypeId(0);
+								SnowballBlock.getRelative(BlockFace.DOWN).setTypeId(0);
 							}
 						} else if (Craft.blockHardness(blockType) == 0) {
-							eggBlock.getRelative(BlockFace.DOWN).setTypeId(0);
+							SnowballBlock.getRelative(BlockFace.DOWN).setTypeId(0);
 						} else if ((Craft.blockHardness(blockType) == 46) && (randomNum >= .5)) {
-							// CraftWorld cWorld = (CraftWorld) eggBlock.getWorld();
-							// cWorld.createExplosion(eggBlock.getRelative(BlockFace.DOWN).getLocation(), 6);
-							// CraftWorld cWorld = (CraftWorld) eggBlock.getWorld();
+							// CraftWorld cWorld = (CraftWorld) SnowballBlock.getWorld();
+							// cWorld.createExplosion(SnowballBlock.getRelative(BlockFace.DOWN).getLocation(), 6);
+							// CraftWorld cWorld = (CraftWorld) SnowballBlock.getWorld();
 							// EntityTNTPrimed tnt = new EntityTNTPrimed(cWorld.getHandle(),
-							// eggBlock.getLocation().getX(), eggBlock.getLocation().getY(),
-							// eggBlock.getLocation().getZ());
+							// SnowballBlock.getLocation().getX(), SnowballBlock.getLocation().getY(),
+							// SnowballBlock.getLocation().getZ());
 							// cWorld.getHandle().addEntity(tnt);
 							// tnt.fuseTicks = fuseDelay;
-							TNTPrimed tnt = (TNTPrimed) eggBlock.getWorld().spawnEntity(new Location(eggBlock.getWorld(), eggBlock.getX(), eggBlock.getY(), eggBlock.getZ()), org.bukkit.entity.EntityType.PRIMED_TNT);
+							TNTPrimed tnt = (TNTPrimed) SnowballBlock.getWorld().spawnEntity(new Location(SnowballBlock.getWorld(), SnowballBlock.getX(), SnowballBlock.getY(), SnowballBlock.getZ()), org.bukkit.entity.EntityType.PRIMED_TNT);
 							tnt.setFuseTicks(fuseDelay);
 							fuseDelay = fuseDelay + 2;
 						}
 					}
 				}
 
-				event.getPlayer().getWorld().playEffect(egg.getLocation(), Effect.SMOKE, 0);
-				// event.getPlayer().getWorld().playEffect(egg.getLocation(), Effect.CLICK1, 0);
-				event.getPlayer().getWorld().playSound(egg.getLocation(), Sound.ENTITY_BLAZE_HURT, 1.0f, 1.00f);
+				event.getPlayer().getWorld().playEffect(Snowball.getLocation(), Effect.SMOKE, 0);
+				// event.getPlayer().getWorld().playEffect(Snowball.getLocation(), Effect.CLICK1, 0);
+				event.getPlayer().getWorld().playSound(Snowball.getLocation(), Sound.ENTITY_BLAZE_HURT, 1.0f, 1.00f);
 
-				Craft otherCraft = Craft.getOtherCraft(null, event.getPlayer(), egg.getLocation().getBlockX(), egg.getLocation().getBlockY(), egg.getLocation().getBlockZ());
+				Craft otherCraft = Craft.getOtherCraft(null, event.getPlayer(), Snowball.getLocation().getBlockX(), Snowball.getLocation().getBlockY(), Snowball.getLocation().getBlockZ());
 				if (otherCraft != null) {
 					CraftMover cm = new CraftMover(otherCraft, plugin);
 					cm.structureUpdate(event.getPlayer(), false);
 				} else {
-					otherCraft = Craft.getOtherCraft(null, event.getPlayer(), egg.getLocation().getBlock().getRelative(2, 1, 2).getX(), egg.getLocation().getBlock().getRelative(2, 1, 2).getY(), egg.getLocation().getBlock().getRelative(2, 1, 2).getZ());
+					otherCraft = Craft.getOtherCraft(null, event.getPlayer(), Snowball.getLocation().getBlock().getRelative(2, 1, 2).getX(), Snowball.getLocation().getBlock().getRelative(2, 1, 2).getY(), Snowball.getLocation().getBlock().getRelative(2, 1, 2).getZ());
 					if (otherCraft != null) {
 						CraftMover cm = new CraftMover(otherCraft, plugin);
 						cm.structureUpdate(event.getPlayer(), false);
 					} else {
-						otherCraft = Craft.getOtherCraft(null, event.getPlayer(), egg.getLocation().getBlock().getRelative(-2, -1, -2).getX(), egg.getLocation().getBlock().getRelative(-2, -1, -2).getY(), egg.getLocation().getBlock().getRelative(-2, -1, -2).getZ());
+						otherCraft = Craft.getOtherCraft(null, event.getPlayer(), Snowball.getLocation().getBlock().getRelative(-2, -1, -2).getX(), Snowball.getLocation().getBlock().getRelative(-2, -1, -2).getY(), Snowball.getLocation().getBlock().getRelative(-2, -1, -2).getZ());
 						if (otherCraft != null) {
 							CraftMover cm = new CraftMover(otherCraft, plugin);
 							cm.structureUpdate(event.getPlayer(), false);
@@ -4385,8 +4385,8 @@ public class MoveCraft_PlayerListener implements Listener {
 				}
 
 			}
-			NavyCraft.explosiveEggsList.remove(egg);
-			egg.remove();
+			NavyCraft.explosiveSnowballsList.remove(Snowball);
+			Snowball.remove();
 		}
 	}
 

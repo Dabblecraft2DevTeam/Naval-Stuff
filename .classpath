@@ -9,7 +9,5 @@
 	<classpathentry kind="lib" path="C:/Users/keough99/Desktop/dev server/plugins/ProtocolLib (3).jar"/>
 	<classpathentry kind="lib" path="C:/Users/keough99/Desktop/dev server/plugins/worldedit-bukkit-6.1.5.jar"/>
 	<classpathentry kind="lib" path="C:/Users/keough99/Desktop/dev server/plugins/worldguard-6.2.jar"/>
-	<classpathentry kind="lib" path="C:/Users/keough99/Documents/GitHub/Naval-stuff/Naval-Stuff/jars/craftbukkit-1.10.2.jar"/>
-	<classpathentry kind="lib" path="C:/Users/keough99/Documents/GitHub/Naval-stuff/Naval-Stuff/jars/spigot-1.10.2.jar"/>
 	<classpathentry kind="output" path=""/>
 </classpath>

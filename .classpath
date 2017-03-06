@@ -2,12 +2,15 @@
 <classpath>
 	<classpathentry kind="src" path=""/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
-	<classpathentry kind="lib" path="C:/Users/keough99/Desktop/dev server/plugins/AimCannonNC.jar"/>
-	<classpathentry kind="lib" path="C:/Users/keough99/Desktop/dev server/plugins/BKCommonLib.jar"/>
-	<classpathentry kind="lib" path="C:/Users/keough99/Desktop/dev server/plugins/Essentials-2.x-SNAPSHOT.jar"/>
-	<classpathentry kind="lib" path="C:/Users/keough99/Desktop/dev server/plugins/EssentialsGroupManager2.14.57.jar"/>
-	<classpathentry kind="lib" path="C:/Users/keough99/Desktop/dev server/plugins/ProtocolLib (3).jar"/>
-	<classpathentry kind="lib" path="C:/Users/keough99/Desktop/dev server/plugins/worldedit-bukkit-6.1.5.jar"/>
-	<classpathentry kind="lib" path="C:/Users/keough99/Desktop/dev server/plugins/worldguard-6.2.jar"/>
+	<classpathentry kind="lib" path="jars/AimCannonNC.jar"/>
+	<classpathentry kind="lib" path="jars/Essentials-2.x-SNAPSHOT.jar"/>
+	<classpathentry kind="lib" path="jars/EssentialsGroupManager2.14.57.jar"/>
+	<classpathentry kind="lib" path="jars/Navycraft.jar"/>
+	<classpathentry kind="lib" path="jars/worldedit-bukkit-6.1.jar"/>
+	<classpathentry kind="lib" path="jars/worldguard-6.1.jar"/>
+	<classpathentry kind="lib" path="jars/craftbukkit-1.10.2.jar"/>
+	<classpathentry kind="lib" path="jars/spigot-1.10.2.jar"/>
+	<classpathentry kind="lib" path="jars/ProtocolLib.jar"/>
+	<classpathentry kind="lib" path="jars/BKCommonLib.jar"/>
 	<classpathentry kind="output" path=""/>
 </classpath>
